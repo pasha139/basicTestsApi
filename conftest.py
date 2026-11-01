@@ -5,20 +5,21 @@ from models.user import User
 
 
 @pytest.fixture
-def base_Pet() -> Pet:
-    return Pet(
+def base_Pet():
+    payload = Pet(
         id=12345,
         name="Buddy",
         photoUrls=["https://example.com/photos/buddy1.jpg"],
         category=Category(id=1, name="Dogs"),
         tags=[Tag(id=10, name="friendly")],
         status="available",
-    )
+    ).model_dump(exclude_none=True)
+    yield payload
 
 
 @pytest.fixture
-def base_User() -> User:
-    return User(
+def base_User():
+    yield User(
         id=100,
         username="base",
         firstName="John",
