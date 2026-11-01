@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, Literal
 
 
@@ -13,6 +13,7 @@ class Tag(BaseModel):
 
 
 class Pet(BaseModel):
+    model_config = ConfigDict(extra='forbid')
     # required
     name: str
     photoUrls: list[str]

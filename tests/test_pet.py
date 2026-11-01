@@ -15,4 +15,8 @@ def test_pet_create(api_session, base_Pet):
         assert body[field] == base_Pet[field]
 
 
+def test_pet_update(api_session, base_Pet):
+    pass
+
+
 

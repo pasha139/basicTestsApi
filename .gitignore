@@ -1,5 +1,7 @@
 __pycache__/
 *.so
+*.py[cod]
+*$py.class
 
 .venv/
 venv/
@@ -9,3 +11,7 @@ logs/
 
 .vscode/
 .DS_Store
+.idea/
+
+.env
+.env.local

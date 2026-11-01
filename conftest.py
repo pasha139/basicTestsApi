@@ -19,7 +19,7 @@ def base_Pet():
 
 @pytest.fixture
 def base_User():
-    yield User(
+    payload = User(
         id=100,
         username="base",
         firstName="John",
@@ -28,7 +28,8 @@ def base_User():
         password="Pass",
         phone="1234567",
         userStatus=100,
-    )
+    ).model_dump(exclude_none=True)
+    yield payload
 
 
 @pytest.fixture(scope="session")
