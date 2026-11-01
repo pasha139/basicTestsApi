@@ -5,7 +5,7 @@ from models.user import User
 
 
 @pytest.fixture
-def base_Pet():
+def base_Pet(api_session):
     payload = Pet(
         id=12345,
         name="Buddy",
@@ -13,6 +13,22 @@ def base_Pet():
         category=Category(id=1, name="Dogs"),
         tags=[Tag(id=10, name="friendly")],
         status="available",
+    ).model_dump(exclude_none=True)
+    response = api_session.post(f"{api_session.base_url}/pet", json=payload)
+    assert response.status_code == 200
+    yield payload
+    api_session.delete(f"{api_session.base_url}/pet/{payload['id']}")
+
+
+@pytest.fixture
+def update_Pet():
+    payload = Pet(
+        id=6666,
+        name="Rester",
+        photoUrls=["https://example.com/photos/rester1.jpg"],
+        category=Category(id=4, name="Cat"),
+        tags=[Tag(id=8, name="Angry")],
+        status="sold",
     ).model_dump(exclude_none=True)
     yield payload
 
