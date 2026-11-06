@@ -1,7 +1,9 @@
 import pytest 
 import requests
+import json
 from models.pet import Pet, Category, Tag
 from models.user import User
+from models.order import Order
 
 
 @pytest.fixture
@@ -14,10 +16,13 @@ def base_Pet(api_session):
         tags=[Tag(id=10, name="friendly")],
         status="available",
     ).model_dump(exclude_none=True)
+
     response = api_session.post(f"{api_session.base_url}/pet", json=payload)
     assert response.status_code == 200
     yield payload
-    api_session.delete(f"{api_session.base_url}/pet/{payload['id']}")
+    response = api_session.delete(f"{api_session.base_url}/pet/{payload['id']}")
+    assert response.status_code in (200, 404)
+    
 
 
 @pytest.fixture
@@ -46,6 +51,24 @@ def base_User():
         userStatus=100,
     ).model_dump(exclude_none=True)
     yield payload
+    
+
+@pytest.fixture
+def base_Order(api_session):
+    payload = Order(
+        id=777,
+        petId=111,
+        quantity=333,
+        shipDate="2026-11-06T11:48:21.057Z",
+        status="placed",
+        complete=False,
+    ).model_dump(exclude_none=True, mode="json")
+
+    response = api_session.post(f"{api_session.base_url}/store/order", json=payload)
+    assert response.status_code == 200
+    yield payload
+    response = api_session.delete(f"{api_session.base_url}/store/order/{payload["id"]}")
+    assert response.status_code in (200, 404)
 
 
 @pytest.fixture(scope="session")

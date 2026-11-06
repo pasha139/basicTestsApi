@@ -19,7 +19,7 @@ class Pet(BaseModel):
     photoUrls: list[str]
 
     # optional
-    id: Optional[int] = None
+    id: int | None = None
     category: Optional[Category] = None
     tags: Optional[list[Tag]] = None
     status: Literal["available", "pending", "sold"] = "available"

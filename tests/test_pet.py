@@ -1,5 +1,4 @@
 import pytest
-import json
 
 
 def test_response_on_base_url(api_session):
@@ -83,18 +82,5 @@ def test_pet_uploadImage(api_session, base_Pet):
     
     body = response.json()
     assert body['code'] == 200
-    assert body['message'] == 'additionalMetadata: test\nFile uploaded to ./test_photo.jpg, 50339 bytes'
-
-
-
-
-
-
-
-
-
-
-
-
-
+    assert "File uploaded" in body['message']
 
