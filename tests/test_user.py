@@ -35,6 +35,7 @@ def test_user_login(api_session, base_User):
         f"{api_session.base_url}/user/login", 
         params={"username": "adm", "password": "adm"}
         )
+    assert response.status_code == 200
     
     body = response.json()
     assert body['code'] == 200
@@ -117,16 +118,3 @@ def test_сreate_list_users(api_session, base_User):
     body = response.json()
     for field in ("id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"):
         assert body[field] == base_User[field]
-
-
-    
-
-
-
-
-
-
-
-
-
-

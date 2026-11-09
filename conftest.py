@@ -54,7 +54,7 @@ def base_User(api_session):
     response = api_session.post(f"{api_session.base_url}/user", json=payload)
     assert response.status_code == 200
     yield payload
-    response = api_session.delete(f"{api_session.base_url}/user/{payload['id']}")
+    response = api_session.delete(f"{api_session.base_url}/user/{payload['username']}")
     assert response.status_code in (200, 404)
     
 
@@ -74,7 +74,7 @@ def update_User(api_session):
     response = api_session.post(f"{api_session.base_url}/user", json=payload)
     assert response.status_code == 200
     yield payload
-    response = api_session.delete(f"{api_session.base_url}/user/{payload['id']}")
+    response = api_session.delete(f"{api_session.base_url}/user/{payload['username']}")
     assert response.status_code in (200, 404)
 
 
