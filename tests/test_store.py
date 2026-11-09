@@ -5,7 +5,6 @@ from datetime import timezone, datetime
 def test_inventory(api_session):
     response = api_session.get(f"{api_session.base_url}/store/inventory", json={"additionalProp1": 12})
     assert response.status_code == 200
-    body = response.json()
 
 
 def test_create_order(api_session, base_Order):

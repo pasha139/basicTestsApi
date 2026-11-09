@@ -15,7 +15,7 @@ def base_Pet(api_session):
         category=Category(id=1, name="Dogs"),
         tags=[Tag(id=10, name="friendly")],
         status="available",
-    ).model_dump(exclude_none=True)
+    ).model_dump(exclude_none=True, mode="json")
 
     response = api_session.post(f"{api_session.base_url}/pet", json=payload)
     assert response.status_code == 200
@@ -39,7 +39,7 @@ def update_Pet():
 
 
 @pytest.fixture
-def base_User():
+def base_User(api_session):
     payload = User(
         id=100,
         username="base",
@@ -50,8 +50,33 @@ def base_User():
         phone="1234567",
         userStatus=100,
     ).model_dump(exclude_none=True)
+
+    response = api_session.post(f"{api_session.base_url}/user", json=payload)
+    assert response.status_code == 200
     yield payload
+    response = api_session.delete(f"{api_session.base_url}/user/{payload['id']}")
+    assert response.status_code in (200, 404)
     
+
+@pytest.fixture
+def update_User(api_session):
+    payload = User(
+        id=909,
+        username="uids",
+        firstName="Take",
+        lastName="Pop",
+        email="sos@gmail.com",
+        password="Pofds",
+        phone="15498093567",
+        userStatus=323,
+    ).model_dump(exclude_none=True)
+
+    response = api_session.post(f"{api_session.base_url}/user", json=payload)
+    assert response.status_code == 200
+    yield payload
+    response = api_session.delete(f"{api_session.base_url}/user/{payload['id']}")
+    assert response.status_code in (200, 404)
+
 
 @pytest.fixture
 def base_Order(api_session):
